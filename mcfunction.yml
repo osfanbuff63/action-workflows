@@ -1,13 +1,36 @@
-# Notice how there is an extra complile and upload step.
-# This is due to how the build-main job checks for errors. Instead of using a script,
-# such as, /gradlew build, with this being a datapack, it checks the source files instead. (see Check commands and Check JSON.)
-# This is completely intentional, please do not create a PR changing it!
+# To use this, you will need to specify the path to your datapack/mcfunction files and the version.
+# The job will fail if you do not provide these.
 
-name: CI
-on: [push, pull_request, workflow_dispatch]
+name: mcfunction CI
+on: 
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+        description: "The release number to use in the artifact name. `-SNAPSHOT` will be added to the end."
+      path:
+        required: false
+        type: string
+        default: ./
+        description: "The path to the directory your pack.mcmeta is in. Defaults to the root directory."
+      files:
+        required: false
+        type: string
+        default: |
+          data/
+          pack.mcmeta
+          pack.png
+          LICENSE.md
+        description: "The files that should be uploaded as artifacts. Defaults to data/, pack.mcmeta, pack.png, and LICENSE.md."
+      mc_version:
+        required: false
+        type: string
+        default: 1.19
+        description: "The Minecraft version your pack is meant for. Defaults to 1.19, valid versions are any major version 1.16+."
 jobs:
   build-main:
-    name: Main CI Build
+    name: Main mcfunction CI
     runs-on: ubuntu-latest
     # Only run on PRs if the source branch is on someone else's repo
     if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
@@ -34,18 +57,15 @@ jobs:
         uses: mcbeet/check-commands@740e5fb3c385a5a5775f9ab6c963745200cb71aa
         with:
           source: .
-          minecraft: 1.19
+          minecraft: ${{ inputs.mc_version }}
       - name: Check JSON
         uses: ocular-d/json-linter@7d3716a34bcd6fcc5b3b38141a21b9e02da6531d
       - name: Compile and upload
         uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8
         with:
-          name: ${{ github.repository }} v0.1.0-SNAPSHOT
+          name: ${{ github.repository }} ${{ inputs.version }}-SNAPSHOT
           path: |
-            assets/
-            data/
-            pack.mcmeta
-            pack.png
+            ${{ inputs.files }}
           if-no-files-found: error
 
   build-packsquash:
@@ -55,7 +75,7 @@ jobs:
     # Only run on PRs if the source branch is on someone else's repo
     if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
     runs-on: ubuntu-latest
-    name: Build with PackSquash
+    name: mcfunction CI with PackSquash
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@dd2c410b088af7c0dc8046f3ac9a8f4148492a95
@@ -75,10 +95,10 @@ jobs:
       - name: Run PackSquash
         uses: ComunidadAylas/PackSquash-action@cdeba7365a1491b436b1a9c381d63b5ee6c27f2e
         with:
-          path: ./
+          path: ${{ inputs.path }}
           token: ${{ secrets.GITHUB_TOKEN }}
           minify_json_files: true
           validate_pack_metadata_file: true
           allow_optifine_mod: true
           delete_bloat_json_keys: true
-          artifact_name: '[UNZIP ME] optimized-${{ github.repository }} v0.1.0-SNAPSHOT'
+          artifact_name: '[UNZIP ME] optimized-${{ github.repository }} ${{ inputs.version }}-SNAPSHOT'
