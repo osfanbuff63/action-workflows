@@ -10,4 +10,4 @@ Create your workflow in your repository, replacing `desired-workflow-file` with-
 
 ## License
 
-This repo is licensed under the [CC0](LICENSE.md) license.
+This repository is licensed under the [CC0](LICENSE.md) license.
