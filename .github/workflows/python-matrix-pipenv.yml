@@ -30,6 +30,7 @@ jobs:
           github.com:443
           pypi.org:443
           y2oiacprodeus2file6.blob.core.windows.net:443
+          files.pythonhosted.org
     - name: Checkout repo
       uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
     - name: Set up Python 3.10
