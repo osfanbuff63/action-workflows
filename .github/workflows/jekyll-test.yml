@@ -1,5 +1,5 @@
 name: Test build
-on: [push, pull_request]
+on: [workflow_call]
 permissions:
   contents: read
   pages: write
