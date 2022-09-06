@@ -1,5 +1,5 @@
 name: Deploy Jekyll site to GitHub Pages
-on: [workflow_call]
+on: [workflow_call, workflow_dispatch]
 concurrency:
   group: "pages"
   cancel-in-progress: true

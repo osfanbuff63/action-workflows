@@ -1,0 +1,43 @@
+# To override super-linter's config, you need fork the repo and use your fork. Currently there isn't a better option, feel free to PR a solution over if you have one.
+name: Super Linter
+on:
+  workflow_dispatch:
+  workflow_call:
+jobs:
+  lint:
+    name: Lint Code Base
+    runs-on: ubuntu-latest
+    # Only run on PRs if the source branch is on someone else's repo
+    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
+    # This is needed since this takes like 2 min to run
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@dd2c410b088af7c0dc8046f3ac9a8f4148492a95
+        with:
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+            gheus22ubt20eus211diag.blob.core.windows.net:443
+      - name: Checkout repo
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+      - name: Lint code base
+        uses: github/super-linter@01d3218744765b55c3b5ffbb27e50961e50c33c5
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_HTML: false
+          VALIDATE_MARKDOWN: false
+          IGNORE_GITIGNORED_FILES: true
+          VALIDATE_EDITORCONFIG: false
+          VALIDATE_PYTHON_BLACK: false
+          VALIDATE_PYTHON_ISORT: false
+          YAML_CONFIG_FILE: .yaml-lint.yml
+          PYTHON_FLAKE8_CONFIG_FILE: .flake8

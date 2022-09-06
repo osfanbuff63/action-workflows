@@ -2,7 +2,8 @@
 # The job will fail if you do not provide these.
 
 name: mcfunction CI
-on: 
+on:
+  workflow_dispatch:
   workflow_call:
     inputs:
       version:

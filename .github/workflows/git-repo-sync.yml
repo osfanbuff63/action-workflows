@@ -1,0 +1,32 @@
+name: Sync to another Git repo
+on: 
+  workflow_call:
+    inputs:
+      target_url:
+        description: "The URL of the repository to sync to."
+        type: string
+        required: true
+      target_username:
+        description: "The username to commit to the new repository as. Defaults to github.actor (the author of the commit)."
+        type: string
+        required: false
+        default: ${{ github.actor }}
+    secrets:
+      target_token:
+        description: "A token to access the repo to sync."
+        required: true
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Obviously we need the whole commit history and all branches
+      - name: Sync the repository
+        uses: jauderho/git-repo-sync@v0.3.0
+        with:
+          target-url: ${{ inputs.target_url }}
+          target-username: ${{ inputs.target_username }}
+          target-token: ${{ secrets.target_token }}
+          

@@ -1,0 +1,17 @@
+# This is actually intended to be CI for this repository, but you can use it as a reusable too!
+name: Lint actions with actionlint
+on: [push, pull_request, workflow_call]
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.19'
+      - name: Install and run actionlint
+        run: |
+          go install github.com/rhysd/actionlint/cmd/actionlint@latest
+          actionlint

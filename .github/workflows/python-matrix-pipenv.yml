@@ -1,5 +1,5 @@
 name: Python CI with a matrix using pipenv
-on: [workflow_call]
+on: [workflow_call, workflow_dispatch]
 permissions:  # added using https://github.com/step-security/secure-workflows
   contents: read
 jobs:
