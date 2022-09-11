@@ -62,7 +62,7 @@ jobs:
              pack.mcmeta
              pack.png
              LICENSE.md
-         name: ${{ github.repository }} ${{ inputs.version }}
+         name: ${{ steps.repo_name.outputs.repo }} ${{ inputs.version }}
 
          
    upload-optimized-datapack:

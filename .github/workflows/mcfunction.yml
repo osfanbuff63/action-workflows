@@ -61,10 +61,13 @@ jobs:
           minecraft: ${{ inputs.mc_version }}
       - name: Check JSON
         uses: ocular-d/json-linter@7d3716a34bcd6fcc5b3b38141a21b9e02da6531d
+      - name: Get repository name without owner's name
+        id: repo_name
+        run: echo ::set-output name=REPO::${GITHUB_REPOSITORY#*/}
       - name: Compile and upload
         uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8
         with:
-          name: ${{ github.repository }} ${{ inputs.version }}-SNAPSHOT
+          name: ${{ steps.repo_name.outputs.repo }} ${{ inputs.version }}-SNAPSHOT
           path: |
             ${{ inputs.files }}
           if-no-files-found: error
@@ -93,6 +96,9 @@ jobs:
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
         with:
           fetch-depth: 0
+      - name: Get repository name without owner's name
+        id: repo_name
+        run: echo ::set-output name=REPO::${GITHUB_REPOSITORY#*/}
       - name: Run PackSquash
         uses: ComunidadAylas/PackSquash-action@cdeba7365a1491b436b1a9c381d63b5ee6c27f2e
         with:
@@ -102,4 +108,4 @@ jobs:
           validate_pack_metadata_file: true
           allow_optifine_mod: true
           delete_bloat_json_keys: true
-          artifact_name: '[UNZIP ME] optimized-${{ github.repository }} ${{ inputs.version }}-SNAPSHOT'
+          artifact_name: '[UNZIP ME] optimized-${{ steps.repo_name.outputs. }} ${{ inputs.version }}-SNAPSHOT'
