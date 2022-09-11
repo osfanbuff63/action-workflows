@@ -25,7 +25,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
       - name: Setup ruby
-        uses: ruby/setup-ruby@0a29871fe2b0200a17a4497bae54fe5df0d973aa
+        uses: ruby/setup-ruby@72d59482210349c1114eca714b6c5df19fbbec34
         with:
           ruby-version: 3.1.2
       - name: Build Jekyll
