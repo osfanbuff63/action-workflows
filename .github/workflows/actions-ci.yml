@@ -1,6 +1,6 @@
 # This is actually intended to be CI for this repository, but you can use it as a reusable too!
 name: Lint actions with actionlint
-on: [push, pull_request, workflow_call]
+on: [workflow_call]
 jobs:
   main:
     runs-on: ubuntu-latest

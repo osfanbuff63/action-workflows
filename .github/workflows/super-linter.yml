@@ -5,7 +5,7 @@ on:
   workflow_call:
     inputs:
       depreciation-notice:
-        deprecationMessage: "This workflow has been depreciated in favor of MegaLinter. By setting this value to `true`, you acknowledge that you will not receive support."
+        description: "This workflow has been depreciated in favor of MegaLinter. By setting this value to `true`, you acknowledge that you will not receive support."
         required: true
         type: boolean
 jobs:

@@ -108,4 +108,4 @@ jobs:
           validate_pack_metadata_file: true
           allow_optifine_mod: true
           delete_bloat_json_keys: true
-          artifact_name: '[UNZIP ME] optimized-${{ steps.repo_name.outputs. }} ${{ inputs.version }}-SNAPSHOT'
+          artifact_name: '[UNZIP ME] optimized-${{ steps.repo_name.outputs.repo }} ${{ inputs.version }}-SNAPSHOT'
