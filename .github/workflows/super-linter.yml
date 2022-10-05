@@ -40,7 +40,7 @@ jobs:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
       - name: Lint code base
-        uses: github/super-linter@01d3218744765b55c3b5ffbb27e50961e50c33c5
+        uses: github/super-linter@bb2d833b08b6c288608686672b93a8a4589cdc49
         if: success()
         env:
           VALIDATE_ALL_CODEBASE: false
