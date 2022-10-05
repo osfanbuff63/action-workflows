@@ -34,7 +34,7 @@ jobs:
           script: |
             core.setFailed('The depreciation notice hasn't been acknowledged!')
       - name: Checkout repo
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
         if: success()
         with:
           # Full git history is needed to get a proper list of changed files within `super-linter`
