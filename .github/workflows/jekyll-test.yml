@@ -23,7 +23,7 @@ jobs:
            pipelines.actions.githubusercontent.com:443
            rubygems.org:443
       - name: Checkout repo
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
       - name: Setup ruby
         uses: ruby/setup-ruby@c7079efafd956afb5d823e8999c2506e1053aefa
         with:
