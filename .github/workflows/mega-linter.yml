@@ -55,7 +55,7 @@ jobs:
       # MegaLinter
       - name: MegaLinter
         id: ml
-        uses: oxsecurity/megalinter@5f067f726ebba9ab0a05207777261d8254dd83a2 # v6.14.0
+        uses: oxsecurity/megalinter@8fd433c675d27ceca5a61ace53177c1bbfbf7f49 # v6.18.0
         env:
           # All available variables are described in documentation
           # https://oxsecurity.github.io/megalinter/configuration/
